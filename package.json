@@ -1,0 +1,21 @@
+{
+  "name": "donut-man",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:silberGuy/donut-man.git",
+  "author": "guy silberman <guysilberman1@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "serve-dev": "parcel src/index.html assets/**/*",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.4"
+  },
+  "dependencies": {
+    "three": "^0.119.1"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
+}
