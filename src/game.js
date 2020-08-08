@@ -50,6 +50,10 @@ export class Game {
             }
         });
 
+        document.addEventListener('keyup', keyEvent => {
+                this.player.velocity.x = 0;
+        });
+
         this.addAnimateCallback(() => {
             this.player.animate();
         }, this.player);
