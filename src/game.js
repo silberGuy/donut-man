@@ -1,19 +1,27 @@
 import {
     PlaneGeometry,
-    MeshBasicMaterial,
+    MeshStandardMaterial,
     Mesh,
-    Box3,
 } from 'three';
 
 import { setupScene } from './scene.js';
 import { initLights } from './scene-lights.js';
 import { factory as DonutFactory } from './donut.js';
 import { factory as PlayerFactory } from './player.js';
+import { getSize } from './utils.js';
+
+const GAME_STATES = {
+    INIT: 0,
+    PLAY: 1,
+    PAUSE: 2,
+    DONE: 3,
+};
 
 export class Game {
     constructor() {
         this.initScene();
         this.initGameEnviroment();
+        this.state = GAME_STATES.INIT;
 
         // animateCallbacks: { cb: object }
         this.animateCallbacksMap = new Map();
@@ -29,8 +37,9 @@ export class Game {
 
     initGameEnviroment() {
         const planeGeometry = new PlaneGeometry(6, 3, 3);
-        const material = new MeshBasicMaterial( { color: 0x2a2325 } );
+        const material = new MeshStandardMaterial( { color: 0x2a2325 } );
         this.ground = new Mesh(planeGeometry, material);
+        this.ground.receiveShadow = true;
         this.scene.add(this.ground);
     }
     
@@ -38,7 +47,10 @@ export class Game {
         this.player = await PlayerFactory();
         this.scene.add(this.player);
         this.player.position.y = -1.3;
-        this.player.position.z = 0.05;
+        this.player.rotation.x = Math.PI / 2;
+        // this.player.rotation.z = Math.PI / 2;
+        const playerSize = getSize(this.player);
+        this.player.position.z = playerSize.z;
 
         document.addEventListener('keydown', keyEvent => {
             if(keyEvent.code === 'ArrowRight') {
@@ -55,7 +67,9 @@ export class Game {
         });
 
         this.addAnimateCallback(() => {
-            this.player.animate();
+            if (this.state === GAME_STATES.PLAY) {
+                this.player.animate();
+            }
         }, this.player);
     }
 
@@ -69,7 +83,10 @@ export class Game {
 
     async start() {
         await this.initPlayer();
+        this.state = GAME_STATES.PLAY;
         setInterval(() => {
+            if (this.state !== GAME_STATES.PLAY)  return;
+
             this.addDonut({
                 x: Math.random() * 3 - 1.5,
             });
@@ -93,11 +110,12 @@ export class Game {
         donut.velocity.z = 0.0075;
         donut.velocity.y = -0.005;
 
-        const boundingBox = new Box3().setFromObject(donut)
-        const donutSize = boundingBox.getSize() // Returns Vector3
+        const donutSize = getSize(donut);
 
         const rotationX = Math.random() * 0.1 + 0.02;
         this.addAnimateCallback(() => {
+            if (this.state !== GAME_STATES.PLAY)  return;
+
             donut.rotation.x += rotationX;
             donut.animate();
             if (donut.position.z - donutSize.z / 2 < 0.01) {
@@ -105,6 +123,10 @@ export class Game {
             }
             if (donut.position.y < this.camera.position.y) {
                 this.removeObject(donut);
+            }
+            if (this.player && donut.position.distanceTo(this.player.position) < 0.1) {
+                alert("game over");
+                this.state = GAME_STATES.PAUSE;
             }
         }, donut);
     }

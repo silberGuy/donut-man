@@ -1,12 +1,15 @@
 import {
     WebGLRenderer,
     AxesHelper,
+    PCFSoftShadowMap,
 } from 'three';
 
 import { Game } from './game.js';
 
 const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = PCFSoftShadowMap;   
 document.body.appendChild(renderer.domElement);
 
 const game = new Game();

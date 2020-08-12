@@ -5,6 +5,7 @@ let model;
 
 export async function factory() {
     const mesh = await createMesh();
+    mesh.castShadow = true;
     return movable.decorate(mesh);
 }
 
