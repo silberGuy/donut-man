@@ -81,7 +81,7 @@ export class Game {
         this.animateCallbacksMap.set(cb, object);
     }
 
-    async start() {
+    async startGame() {
         await this.initPlayer();
         this.state = GAME_STATES.PLAY;
         setInterval(() => {
@@ -91,6 +91,18 @@ export class Game {
                 x: Math.random() * 3 - 1.5,
             });
         }, 1000);
+    }
+
+    get isPlaying() {
+        return this.state === GAME_STATES.PLAY;
+    }
+
+    pause() {
+        this.state = GAME_STATES.PAUSE;
+    }
+
+    continue() {
+        this.state = GAME_STATES.PLAY;
     }
 
     animate() {
@@ -125,7 +137,7 @@ export class Game {
                 this.removeObject(donut);
             }
             if (this.player && donut.position.distanceTo(this.player.position) < 0.1) {
-                alert("game over");
+                // alert("game over");
                 this.state = GAME_STATES.PAUSE;
             }
         }, donut);
