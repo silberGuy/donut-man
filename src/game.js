@@ -8,7 +8,7 @@ import { setupScene } from './scene.js';
 import { initLights } from './scene-lights.js';
 import { factory as DonutFactory } from './donut.js';
 import { factory as PlayerFactory } from './player.js';
-import { getSize } from './utils.js';
+import { getSize, asyncWait } from './utils.js';
 
 const GAME_STATES = {
     INIT: 0,
@@ -17,14 +17,21 @@ const GAME_STATES = {
     DONE: 3,
 };
 
+const INIT_DONUT_SPAWN_TIME = 1000;
+
 export class Game {
     constructor() {
         this.initScene();
         this.initGameEnviroment();
         this.state = GAME_STATES.INIT;
+        this.level = 1;
 
         // animateCallbacks: { cb: object }
         this.animateCallbacksMap = new Map();
+    }
+
+    get donutSpawnTime() {
+        return INIT_DONUT_SPAWN_TIME / this.level;
     }
 
     initScene() {
@@ -84,13 +91,15 @@ export class Game {
     async startGame() {
         await this.initPlayer();
         this.state = GAME_STATES.PLAY;
-        setInterval(() => {
+        const donutIteration = async () => {
             if (this.state !== GAME_STATES.PLAY)  return;
-
             this.addDonut({
                 x: Math.random() * 3 - 1.5,
             });
-        }, 1000);
+            await asyncWait(this.donutSpawnTime);
+            await donutIteration();    
+        }
+        donutIteration();
     }
 
     get isPlaying() {
@@ -138,7 +147,7 @@ export class Game {
             }
             if (this.player && donut.position.distanceTo(this.player.position) < 0.1) {
                 // alert("game over");
-                this.state = GAME_STATES.PAUSE;
+                this.state = GAME_STATES.DONE;
             }
         }, donut);
     }

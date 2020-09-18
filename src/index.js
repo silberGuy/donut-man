@@ -6,6 +6,7 @@ import {
 
 import { Game } from './game.js';
 
+const BASIC_LEVEL_DURATION = 15 * 1000;
 const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -19,17 +20,28 @@ window.game = game;
 const axesHelper = new AxesHelper( 5 );
 game.scene.add( axesHelper );
 
-
-function animate() {
-    requestAnimationFrame(animate);
-    game.animate();
-    renderer.render( game.scene, game.camera );
-    if (game.isPlaying) {
-        updateTimer();
+function startGame(game) {
+    const startTime = new Date();
+    let currentLevel = 1;
+    function animate() {
+        requestAnimationFrame(animate);
+        game.animate();
+        renderer.render( game.scene, game.camera );
+        if (game.isPlaying) {
+            const timePassed = new Date() - startTime;
+            updateTimer(timePassed);
+            const level = Math.max(1, Math.ceil(timePassed / BASIC_LEVEL_DURATION * currentLevel));
+            if (level > currentLevel) {
+                currentLevel = level;
+                setGameLevel(game, level);
+            }
+        }
     }
+
+    animate();
+    game.startGame();
 }
-animate();
-game.startGame();
+startGame(game);
 
 document.addEventListener('keyup', keyEvent => {
     // Escape
@@ -44,11 +56,20 @@ document.addEventListener('keyup', keyEvent => {
 });
 
 const timerElement = document.getElementById('timer');
-const startTime = new Date();
-function updateTimer() {
-    const now = new Date();
-    const time = now - startTime;
-    const miliseconds = time % 1000;
-    const seconds = (time - miliseconds) / 1000;
-    timerElement.innerText = `${seconds}:${miliseconds}`;
+function updateTimer(timePassed) {
+    const miliseconds = timePassed % 1000;
+    const milisecondsString = `${timePassed % 100}`.padStart(2, '0');
+    const seconds = (timePassed - miliseconds) / 1000;
+    const secondsString = `${seconds}`.padStart(2, '0');
+    timerElement.innerText = `${secondsString}:${milisecondsString}`;
+}
+
+const popupMessageElement = document.getElementById('main-popup-message');
+function setGameLevel(game, level) {
+    game.level = level;
+    popupMessageElement.innerText = `LEVEL ${level}`;
+    popupMessageElement.classList.add('animate');
+    setTimeout(() => popupMessageElement.classList.remove('animate'), 1300);
+    // TODO: update game colors according to level
+
 }

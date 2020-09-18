@@ -9,3 +9,9 @@ export function getSize(object) {
     boundingBox.getSize(size);
     return size;
 }
+
+export function asyncWait(miliseconds) {
+    return new Promise((resolve, _reject) => {
+        setTimeout(resolve, miliseconds);
+    })
+}

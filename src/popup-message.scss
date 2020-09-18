@@ -1,0 +1,31 @@
+.popup-message {
+    --animation-time: 1.3s;
+
+    position: absolute;
+    font-size: 30px;
+    left: 50%;
+    top: 80%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+
+    &.animate {
+        animation: popup-animation var(--animation-time) ease-in-out;
+    }
+}
+
+@keyframes popup-animation {
+    0% {
+        top: 80%;
+        opacity: 0;
+        font-size: 30px;
+    }
+    80% {
+        top: 20%;
+        opacity: 1;
+        font-size: 70px;
+    }
+    100% {
+        top: 20%;
+        opacity: 0;
+    }
+}
