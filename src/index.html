@@ -4,33 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yep</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
 
-        #timer {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: .5em;
-            background-color: #313131;
-            color: #e1e1e1;
-            font-size: 25px;
-            letter-spacing: 5px;
-            display: grid;
-            place-items: center;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Ranchers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./index.scss">
     <link rel="stylesheet" href="./popup-message.scss">
+    <link rel="stylesheet" href="./game-menu.scss">
 </head>
 <body>
     <div id="timer">00:00</div>
-    <div id="main-popup-message" class="popup-message">LEVEL 1</div>
+    <div id="main-popup-message" class="popup-message"></div>
+    <div id="landing-menu" class="game-menu">
+        <h1 class="menu-title">Donut Man</h1>
+        <ul class="menu-options">
+            <li id="start-btn"> START GAME</li>
+            <li class="disabled">SELECT AVATAR</li>
+            <li class="disabled">LEADER BOARD</li>
+        </ul>
+    </div>
+    <div id="pause-menu" class="game-menu hidden">
+        <h1 class="menu-title">PAUSE</h1>
+        <ul class="menu-options">
+            <li id="continue-btn">CONTINUE</li>
+            <li class="disabled">SAVE</li>
+        </ul>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>
