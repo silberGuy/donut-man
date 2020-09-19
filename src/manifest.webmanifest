@@ -2,9 +2,11 @@
     "name": "DonutMan",
     "short_name": "DonutMan",
     "start_url": ".",
-    "display": "standalone",
+    "theme_color": "#ca4ea3",
     "background_color": "#fff",
     "description": "Donut mannn",
+    "display": "standalone",
+    "orientation": "landscape",  
     "icons": [{
       "src": "assets/images/icon48.png",
       "sizes": "48x48",
@@ -28,6 +30,10 @@
     }, {
       "src": "assets/images/icon192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    }, {
+      "src": "assets/images/icon192.png",
+      "sizes": "512x512",
       "type": "image/png"
     }]
   }
