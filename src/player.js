@@ -19,7 +19,7 @@ async function createMesh() {
 async function loadModel() {
     if (model) return model;
 
-    const loader = new GLTFLoader().setPath('/assets/models/');
+    const loader = new GLTFLoader().setPath('./assets/models/');
     return new Promise((resolve, reject) => {
         loader.load('poly-man.gltf',
             function(gltf) {

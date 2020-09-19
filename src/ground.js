@@ -17,7 +17,7 @@ async function loadModel() {
     // TODO: separate mounts and ground for more control over the sizes
     if (model) return model;
 
-    const loader = new GLTFLoader().setPath('/assets/models/');
+    const loader = new GLTFLoader().setPath('./assets/models/');
     return new Promise((resolve, reject) => {
         loader.load('ground1.gltf',
             function(gltf) {
