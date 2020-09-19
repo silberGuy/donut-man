@@ -1,8 +1,4 @@
-import {
-    PlaneGeometry,
-    MeshStandardMaterial,
-    Mesh,
-} from 'three';
+import { MeshStandardMaterial } from 'three';
 
 import { setupScene } from './model-loaders/scene.js';
 import { initLights } from './model-loaders/scene-lights.js';
