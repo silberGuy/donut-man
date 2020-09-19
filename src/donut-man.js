@@ -8,6 +8,7 @@ import { setupScene } from './scene.js';
 import { initLights } from './scene-lights.js';
 import { factory as DonutFactory } from './donut.js';
 import { factory as PlayerFactory } from './player.js';
+import { factory as GroundFactory, setGroundMaterial } from './ground.js';
 import { getSize, asyncWait } from './utils.js';
 
 const GAME_STATES = {
@@ -18,12 +19,24 @@ const GAME_STATES = {
 };
 
 const INIT_DONUT_SPAWN_TIME = 1000;
+const MAX_X = 1;
+const MIN_X = -MAX_X;
+const PLAYER_PADDING_FROM_EDGE = 0.2;
+const LEVELS_GROUND_COLOR = [
+    new MeshStandardMaterial( { color: 0xd3a930 } ),
+    new MeshStandardMaterial( { color: 0x61963a } ),
+    new MeshStandardMaterial( { color: 0x6d4317 } ),
+    new MeshStandardMaterial( { color: 0x77d1ec } ),
+    new MeshStandardMaterial( { color: 0xbd0895 } ),
+    new MeshStandardMaterial( { color: 0xffe100 } ),
+];
 
 export class DonutMan {
-    constructor() {
+    constructor(gameController) {
         // animateCallbacks: { cb: object }
         this.animateCallbacksMap = new Map();
         this.level = 1;
+        this.gameController = gameController;
         this.initScene();
     }
 
@@ -47,10 +60,10 @@ export class DonutMan {
         this.state = GAME_STATES.INIT;
     }
 
-    initGameEnviroment() {
-        const planeGeometry = new PlaneGeometry(6, 3, 3);
-        const material = new MeshStandardMaterial( { color: 0x2a2325 } );
-        this.ground = new Mesh(planeGeometry, material);
+    async initGameEnviroment() {
+        this.ground = await GroundFactory();
+        this.ground.receiveShadow = true;
+        setGroundMaterial(this.ground, LEVELS_GROUND_COLOR[0]);
         this.ground.receiveShadow = true;
         this.scene.add(this.ground);
     }
@@ -60,22 +73,28 @@ export class DonutMan {
         this.scene.add(this.player);
         this.player.position.y = -1.3;
         this.player.rotation.x = Math.PI / 2;
-        // this.player.rotation.z = Math.PI / 2;
         const playerSize = getSize(this.player);
+        // TODO: Set player anchor point at its bottom and delete this line
         this.player.position.z = playerSize.z;
 
-        document.addEventListener('keydown', keyEvent => {
-            if(keyEvent.code === 'ArrowRight') {
-                this.player.velocity.x = 0.01;
-            }
-
-            if(keyEvent.code === 'ArrowLeft') {
+        this.gameController.on('left', () => {
+            if ((this.player.position.x - PLAYER_PADDING_FROM_EDGE)> MIN_X) {
                 this.player.velocity.x = -0.01;
+            } else {
+                this.player.velocity.x = 0;
             }
         });
 
-        document.addEventListener('keyup', keyEvent => {
+        this.gameController.on('right', () => {
+            if ((this.player.position.x + PLAYER_PADDING_FROM_EDGE) < MAX_X) {
+                this.player.velocity.x = 0.01;
+            } else {
                 this.player.velocity.x = 0;
+            }
+        });
+
+        this.gameController.on('keyup', () => {
+            this.player.velocity.x = 0;
         });
 
         this.addAnimateCallback(() => {
@@ -98,7 +117,7 @@ export class DonutMan {
         const donutIteration = async () => {
             if (this.state !== GAME_STATES.PLAY)  return;
             this.addDonut({
-                x: Math.random() * 3 - 1.5,
+                x: Math.random() * (MAX_X - MIN_X) + MIN_X,
             });
             await asyncWait(this.donutSpawnTime);
             await donutIteration();    
@@ -108,6 +127,19 @@ export class DonutMan {
 
     get isPlaying() {
         return this.state === GAME_STATES.PLAY;
+    }
+
+    setLevel(level) {
+        this.level = level;
+        let planeMaterialIndex = 0;
+        let mountsMaterialIndex = 0;
+        if (level >= LEVELS_GROUND_COLOR.length) {
+            planeMaterialIndex = Math.floor(Math.random() * LEVELS_GROUND_COLOR.length);
+            mountsMaterialIndex = Math.floor(Math.random() * LEVELS_GROUND_COLOR.length);
+        } else {
+            planeMaterialIndex = mountsMaterialIndex = level - 1;
+        }
+        setGroundMaterial(this.ground, LEVELS_GROUND_COLOR[planeMaterialIndex], LEVELS_GROUND_COLOR[mountsMaterialIndex]);
     }
 
     pause() {

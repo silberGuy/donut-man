@@ -1,9 +1,11 @@
 import { DonutMan } from './donut-man.js';
+import { GameController } from './game-controller.js';
 
 const BASIC_LEVEL_DURATION = 15 * 1000;
 
 export async function initGame(renderer) {
-    const game = new DonutMan();
+    const gameController = GameController(renderer.domElement);
+    const game = new DonutMan(gameController);
     // for debugging
     window.game = game;
     await game.initGame();
@@ -32,6 +34,7 @@ export function startGame(renderer, game) {
 
     animate();
     game.startGame();
+    game.setLevel(currentLevel);
 }
 
 export function pauseGame(game) {
@@ -53,7 +56,7 @@ function updateTimer(timePassed) {
 
 const popupMessageElement = document.getElementById('main-popup-message');
 function setGameLevel(game, level) {
-    game.level = level;
+    game.setLevel(level);
     popupMessageElement.innerText = `LEVEL ${level}`;
     popupMessageElement.classList.add('animate');
     setTimeout(() => popupMessageElement.classList.remove('animate'), 1300);
