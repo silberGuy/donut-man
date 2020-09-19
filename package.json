@@ -6,6 +6,7 @@
   "author": "guy silberman <guysilberman1@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "parcel build src/index.html",
     "serve-dev": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

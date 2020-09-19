@@ -1,5 +1,6 @@
-import * as movable from './movable.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import * as movable from './movable.js';
+import donut from './assets/models/donut.gltf';
 
 let model;
 
@@ -17,9 +18,9 @@ async function createMesh() {
 async function loadModel() {
     if (model) return model;
 
-    const loader = new GLTFLoader().setPath('./assets/models/');
+    const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
-        loader.load('donut.gltf',
+        loader.load(donut,
             function(gltf) {
                 model = gltf.scene.children[0];
                 resolve(model);

@@ -1,5 +1,5 @@
-import { MeshStandardMaterial } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import ground1 from './assets/models/ground1.gltf';
 
 let model;
 
@@ -17,9 +17,9 @@ async function loadModel() {
     // TODO: separate mounts and ground for more control over the sizes
     if (model) return model;
 
-    const loader = new GLTFLoader().setPath('./assets/models/');
+    const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
-        loader.load('ground1.gltf',
+        loader.load(ground1,
             function(gltf) {
                 model = gltf.scene.children[0];
                 model.scale.set(0.75, 0.75, 0.75);

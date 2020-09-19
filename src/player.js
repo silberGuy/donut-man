@@ -2,6 +2,7 @@
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as movable from './movable.js';
+import polyMan from './assets/models/poly-man.gltf';
 
 let model;
 
@@ -19,9 +20,9 @@ async function createMesh() {
 async function loadModel() {
     if (model) return model;
 
-    const loader = new GLTFLoader().setPath('./assets/models/');
+    const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
-        loader.load('poly-man.gltf',
+        loader.load(polyMan,
             function(gltf) {
                 model = gltf.scene.children[0];
                 model.scale.set(0.02, 0.02, 0.02);
