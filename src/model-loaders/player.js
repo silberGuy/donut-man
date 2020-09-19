@@ -1,8 +1,8 @@
 'use strict';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as movable from './movable.js';
-import polyMan from './assets/models/poly-man.gltf';
+import * as movable from '../movable.js';
+import polyMan from '../assets/models/poly-man.gltf';
 
 let model;
 

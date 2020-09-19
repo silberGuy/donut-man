@@ -1,5 +1,5 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import ground1 from './assets/models/ground1.gltf';
+import ground1 from '../assets/models/ground1.gltf';
 
 let model;
 

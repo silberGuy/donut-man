@@ -4,11 +4,11 @@ import {
     Mesh,
 } from 'three';
 
-import { setupScene } from './scene.js';
-import { initLights } from './scene-lights.js';
-import { factory as DonutFactory } from './donut.js';
-import { factory as PlayerFactory } from './player.js';
-import { factory as GroundFactory, setGroundMaterial } from './ground.js';
+import { setupScene } from './model-loaders/scene.js';
+import { initLights } from './model-loaders/scene-lights.js';
+import { factory as DonutFactory } from './model-loaders/donut.js';
+import { factory as PlayerFactory } from './model-loaders/player.js';
+import { factory as GroundFactory, setGroundMaterial } from './model-loaders/ground.js';
 import { getSize, asyncWait } from './utils.js';
 
 const GAME_STATES = {

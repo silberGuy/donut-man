@@ -1,6 +1,6 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as movable from './movable.js';
-import donut from './assets/models/donut.gltf';
+import * as movable from '../movable.js';
+import donut from '../assets/models/donut.gltf';
 
 let model;
 
