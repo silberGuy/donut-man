@@ -15,7 +15,7 @@ export function GameController(gameRenderElement) {
         }
     });
     
-    gameRenderElement.addEventListener('touchmove', ({ touches }) => {
+    gameRenderElement.addEventListener('touchstart', ({ touches }) => {
         if (touches.length === 1) {
             const { clientX } = touches[0];
             if (clientX > gameRenderElement.clientWidth / 2) {
