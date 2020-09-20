@@ -11,27 +11,33 @@
     <link rel="stylesheet" href="./style/game-menu.scss">
 
     <link rel="" href="">
-    <link rel="manifest" href="./manifest.webmanifest">
-    <link rel="apple-touch-icon" href="./assets/images/icon192.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#ca4ea3">
+    <link rel="apple-touch-icon"  media="screen (orientation: landscape)" href="./assets/images/icon192.png">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 </head>
 <body>
-    <div id="timer">00:00</div>
-    <div id="main-popup-message" class="popup-message"></div>
-    <div id="landing-menu" class="game-menu">
-        <h1 class="menu-title">Donut Man</h1>
-        <ul class="menu-options">
-            <li id="start-btn"> START GAME</li>
-            <li class="disabled">SELECT AVATAR</li>
-            <li class="disabled">LEADER BOARD</li>
-        </ul>
-    </div>
-    <div id="pause-menu" class="game-menu hidden">
-        <h1 class="menu-title">PAUSE</h1>
-        <ul class="menu-options">
-            <li id="continue-btn">CONTINUE</li>
-            <li class="disabled">SAVE</li>
-        </ul>
+    <div id="game-wrapper">
+        <div id="timer">00:00</div>
+        <div id="main-popup-message" class="popup-message"></div>
+        <div id="landing-menu" class="game-menu">
+            <h1 class="menu-title">Donut Man</h1>
+            <ul class="menu-options">
+                <li id="start-btn"> START GAME</li>
+                <li class="disabled">SELECT AVATAR</li>
+                <li class="disabled">LEADER BOARD</li>
+            </ul>
+        </div>
+        <div id="pause-menu" class="game-menu hidden">
+            <h1 class="menu-title">PAUSE</h1>
+            <ul class="menu-options">
+                <li id="continue-btn">CONTINUE</li>
+                <li class="disabled">SAVE</li>
+            </ul>
+        </div>
     </div>
     <script src="./index.js"></script>
 </body>

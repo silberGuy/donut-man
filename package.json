@@ -8,6 +8,7 @@
   "scripts": {
     "build": "parcel build src/index.html",
     "serve-dev": "parcel src/index.html",
+    "deploy": "rm -rf dist && yarn build && firebase deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

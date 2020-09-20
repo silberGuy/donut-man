@@ -10,7 +10,7 @@ const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;   
-document.body.appendChild(renderer.domElement);
+document.body.prepend(renderer.domElement);
 
 const landingMenu = document.getElementById("landing-menu");
 const startGameButton = document.getElementById("start-btn");
@@ -22,7 +22,7 @@ async function start() {
         startGame(renderer, game);
         landingMenu.classList.add('hidden');
     }
-    
+
     continueButton.addEventListener('click', onContinueClick);
     document.addEventListener('keyup', keyEvent => {
         // Escape
