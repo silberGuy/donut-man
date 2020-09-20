@@ -1,5 +1,6 @@
 import { DonutMan } from './donut-man.js';
 import { GameController } from './game-controller.js';
+import { isTouchDevice } from './utils.js';
 
 const BASIC_LEVEL_DURATION = 15 * 1000;
 
@@ -17,6 +18,7 @@ export async function initGame(renderer) {
 export function startGame(renderer, game) {
     const startTime = new Date();
     let currentLevel = 1;
+    popupMessage(isTouchDevice() ? 'touch sides to move' : 'arrows to move');
     function animate() {
         requestAnimationFrame(animate);
         game.animate();
@@ -54,11 +56,14 @@ function updateTimer(timePassed) {
     timerElement.innerText = `${secondsString}:${milisecondsString}`;
 }
 
-const popupMessageElement = document.getElementById('main-popup-message');
 function setGameLevel(game, level) {
     game.setLevel(level);
-    popupMessageElement.innerText = `LEVEL ${level}`;
+    popupMessage(`LEVEL ${level}`);
+}
+
+const popupMessageElement = document.getElementById('main-popup-message');
+function popupMessage(msg) {
+    popupMessageElement.innerText = msg;
     popupMessageElement.classList.add('animate');
     setTimeout(() => popupMessageElement.classList.remove('animate'), 1300);
-    // TODO: update game colors according to level
 }

@@ -21,19 +21,23 @@ const landingMenu = document.getElementById('landing-menu');
 const startGameButton = document.getElementById('start-btn');
 const pauseMenu = document.getElementById('pause-menu');
 const continueButton = document.getElementById('continue-btn');
+const pauseButton = document.getElementById('pause-btn');
 async function start() {
     const game = await initGame(renderer);
+    let gameStarted = false;
     startGameButton.onclick = function() {
         startGame(renderer, game);
         landingMenu.classList.add('hidden');
+        pauseButton.classList.remove('hidden');
+        gameStarted = true;
     }
 
     continueButton.addEventListener('click', onContinueClick);
+    pauseButton.addEventListener('click', onPauseClick);
     document.addEventListener('keyup', keyEvent => {
         // Escape
         if (keyEvent.keyCode === 27) {
-            pauseGame(game);
-            pauseMenu.classList.remove('hidden');
+            onPauseClick();
         }
         // Space
         if (keyEvent.keyCode === 32) {
@@ -44,6 +48,14 @@ async function start() {
     function onContinueClick() {
         continueGame(game);
         pauseMenu.classList.add('hidden');
+        pauseButton.classList.remove('hidden');
+    }
+
+    function onPauseClick() {
+        if (!gameStarted) return;
+        pauseGame(game);
+        pauseButton.classList.add('hidden');
+        pauseMenu.classList.remove('hidden');
     }
 }
 

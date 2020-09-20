@@ -10,10 +10,6 @@
     opacity: 1;
     transition: opacity .3s;
 
-    &.hidden {
-        display: none;
-    }
-
     .menu-title {
         font-size: 50px;
         margin-bottom: .5em;

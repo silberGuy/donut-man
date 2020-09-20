@@ -6,9 +6,9 @@
   "author": "guy silberman <guysilberman1@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --out-dir build",
     "serve-dev": "parcel src/index.html",
-    "deploy": "rm -rf dist && yarn build && firebase deploy",
+    "deploy": "rm -rf build && yarn build && firebase deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
