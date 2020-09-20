@@ -74,7 +74,7 @@ export class DonutMan {
         this.player.position.z = playerSize.z;
 
         this.gameController.on('left', () => {
-            if ((this.player.position.x - PLAYER_PADDING_FROM_EDGE)> MIN_X) {
+            if ((this.player.position.x - PLAYER_PADDING_FROM_EDGE) > MIN_X) {
                 this.player.velocity.x = -0.01;
             } else {
                 this.player.velocity.x = 0;
@@ -111,12 +111,13 @@ export class DonutMan {
     async startGame() {
         this.state = GAME_STATES.PLAY;
         const donutIteration = async () => {
-            if (this.state !== GAME_STATES.PLAY)  return;
-            this.addDonut({
-                x: Math.random() * (MAX_X - MIN_X) + MIN_X,
-            });
+            if (this.state === GAME_STATES.PLAY) {
+                this.addDonut({
+                    x: Math.random() * (MAX_X - MIN_X) + MIN_X,
+                });
+            }
             await asyncWait(this.donutSpawnTime);
-            await donutIteration();    
+            await donutIteration();
         }
         donutIteration();
     }
@@ -143,9 +144,7 @@ export class DonutMan {
     }
 
     continue() {
-        if (this.state === GAME_STATES.PAUSE) {
-            this.state = GAME_STATES.PLAY;
-        }
+        this.state = GAME_STATES.PLAY;
     }
 
     animate() {
