@@ -1,21 +1,26 @@
 import {
     WebGLRenderer,
-    // AxesHelper,
     PCFSoftShadowMap,
 } from 'three';
 
 import { initGame, startGame, pauseGame, continueGame } from './game.js';
 
+const gameWrapper = document.getElementById('game-wrapper');
 const renderer = new WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;   
-document.body.prepend(renderer.domElement);
+gameWrapper.prepend(renderer.domElement);
+window.addEventListener('load', resizeRenderer);
+window.addEventListener('resize', resizeRenderer);
+window.addEventListener('orientationchange', resizeRenderer);
+function resizeRenderer() {
+    renderer.setSize(gameWrapper.clientWidth, gameWrapper.clientHeight);
+}
 
-const landingMenu = document.getElementById("landing-menu");
-const startGameButton = document.getElementById("start-btn");
-const pauseMenu = document.getElementById("pause-menu");
-const continueButton = document.getElementById("continue-btn");
+const landingMenu = document.getElementById('landing-menu');
+const startGameButton = document.getElementById('start-btn');
+const pauseMenu = document.getElementById('pause-menu');
+const continueButton = document.getElementById('continue-btn');
 async function start() {
     const game = await initGame(renderer);
     startGameButton.onclick = function() {

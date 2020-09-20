@@ -15,3 +15,4 @@ export function setupScene() {
     scene.background = new Color( 0x87AFFF );
     return { scene, camera };
 }
+

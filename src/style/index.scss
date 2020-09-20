@@ -20,8 +20,26 @@ html, body {
     border-bottom-right-radius: 8px;
 }
 
-canvas {
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
+#game-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+
+    canvas {
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+    }
 }
+
+// @media screen and (orientation: portrait) {
+//     #game-wrapper {
+//         transform: translate(-50%, -50%) rotate(-90deg);
+//         transform-origin: center center;
+//         height: 100vw;
+//         width: 100vh;
+//     }
+// }
